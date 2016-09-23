@@ -2,7 +2,10 @@ version: '2'
 services:
   webapp:
     container_name: fablab
-    image: ensimag/rpi_fablab_project:1
+    image: fablab/rpi_webapp:1
+    environment:
+      - HTTP_PROXY=http://www-cache.ujf-grenoble.fr:3128
+      - MODE=PROD
     ports:
       - "80:3000"
     depends_on:
@@ -10,8 +13,8 @@ services:
     links:
       - mongodb:mongodb
   mongodb:
-    container_name: mongoDB
-    image: ensimag/rpi_mongo:1
+    container_name: mongo
+    image: fablab/rpi_mongo:1
     ports:
       - "27017:27017"
     volumes:
