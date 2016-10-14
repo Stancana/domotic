@@ -15,14 +15,16 @@ function send_mail(to, content){
     };
 
     // send mail with defined transport object
+    var mail_sent = true;
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
-            return false;
+            mail_sent = false;
+            console.log("There was a problem : "+error);
+        }else {
+            console.log('Message sent: ' + info.response);
         }
-
-        console.log('Message sent: ' + info.response);
-        return true;
     });
+     return mail_sent;
 }
 
 module.exports = {

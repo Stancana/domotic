@@ -11,13 +11,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+    //Try to send the mail
     var mail_sent = mail_sender.send_mail("vince.chenal@gmail.com", req.body.content)
-    if(mail_sent === true){
+
+    //Check whether th emails has been sent or not and render the page in consequence
+    if(mail_sent){
         res.render('index', { title: 'FabLab staff notifier' , mail_ok: "The mail has been successfully sent"});
     }else{
         res.render('index', { title: 'FabLab staff notifier' , mail_not_ok: "There was a problem while sending the mail. Please contact an administrator)"});
     }
-
 });
 
 module.exports = router;
