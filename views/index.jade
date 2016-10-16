@@ -1,13 +1,21 @@
 extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
-    form(name="send_mail", method="post", action="/")
-        input(type="text", name="content")
-        input(type="submit", value="add")
-    if mail_ok
-        p #{mail_ok}
-    if mail_not_ok
-        p #{mail_not_ok}
 
+    //- Error or Success section
+    if mail_ok
+        div.alert.alert-success #{mail_ok}
+    if mail_not_ok
+        div.alert.alert-danger #{mail_not_ok}
+
+    //- Panel for sending mail
+    div.panel.panel-info
+        div.panel-heading #{title}
+        div.panel-body
+            p Bienvenue ! Vous pouvez utiliser le formulaire ci-dessous pour notifier un responsable FABLAB !
+            //- Form
+            form.form-horizontal(name="send_mail", method="post", action="/")
+                div.form-group
+                    label(for="textareaMessage") Saisissez votre message :
+                    textarea#textareaMessage.form-control(type="text", name="content")
+                button.btn.btn-primary(type="submit") Envoyer
