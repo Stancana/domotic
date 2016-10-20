@@ -1,15 +1,13 @@
-FROM node:argon
+FROM hypriot/rpi-node:argon
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /src
 
 # Install app dependencies
-COPY package.json /usr/src/app/
+COPY package.json /src/
 RUN npm install
 
 # Bundle app source
-COPY . /usr/src/app
+COPY . /src
 
 EXPOSE 80
 CMD [ "npm", "start" ]
