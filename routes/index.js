@@ -4,9 +4,6 @@ var mail_sender = require('../engine/mail_sender');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
-
-
     res.render('index', { title: 'FabLab staff notifier' });
 });
 
