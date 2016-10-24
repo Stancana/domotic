@@ -1,6 +1,9 @@
+var SERVER_PORT = 3000;
 
-var SERVER_PORT = 80
+var setGlobalConfig = function(app){
+    app.set("SERVER_PORT", SERVER_PORT);
+}
 
 module.exports = {
-    server_port: SERVER_PORT
+    setGlobalConfig : setGlobalConfig
 }

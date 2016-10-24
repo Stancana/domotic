@@ -10,6 +10,15 @@ var users = require('./routes/users');
 
 var app = express();
 
+//Import configurations
+var global_config = require("./config/global_config");
+global_config.setGlobalConfig(app);
+var mongo_config = require("./config/mongo_config");
+mongo_config.setDBConfig(app);
+var mail_config = require("./config/mail_config");
+mail_config.setMailConfig(app);
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -25,13 +34,6 @@ app.use(express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 
 app.use('/', routes);
 app.use('/users', users);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
 
 // error handlers
 
