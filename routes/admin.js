@@ -6,11 +6,15 @@ var router = express.Router();
 var passport = require("passport");
 var logged = require("../engine/checkLogged")
 
+router.get("/",function (req, res, next) {
+    res.redirect("/admin/home");
+})
+
 router.get("/login", function(req, res, next) {
     if(logged.isLogged(req))
         res.redirect('home');
     else
-        res.render('login', {message : req.flash('loginMessage')});
+        res.render('login', {message : req.flash('loginMessage')}); 
 });
 
 router.post("/login", passport.authenticate( 'local', {
