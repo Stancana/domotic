@@ -2,6 +2,9 @@ extends layout
 
 block content
 
+    if message != ''
+        div.alert.alert-danger #{message}
+
     form.form-horizontal(action="/admin/login" method="post")
         div.from-group
             label.control-label.col-sm-2 Email:
