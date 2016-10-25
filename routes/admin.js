@@ -10,7 +10,7 @@ router.get("/login", function(req, res, next) {
     if(logged.isLogged(req))
         res.redirect('home');
     else
-        res.render('login');
+        res.render('login', {message : req.flash('loginMessage')});
 });
 
 router.post("/login", passport.authenticate( 'local', {
