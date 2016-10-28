@@ -1,0 +1,25 @@
+extends layout
+
+block content
+
+    if error && error != ''
+        div.alert.alert-danger #{error}
+    if success && success != ''
+        div.alert.alert-success #{success}
+
+    if adminMessage
+        div.panel.panel-default
+            div.panel-heading Message du #{adminMessage.date}
+            div.panel-body #{adminMessage.message}
+
+    //- Panel for sending mail
+    div.panel.panel-info
+        div.panel-heading #{title}
+        div.panel-body
+            p Utiliser le formulaire ci-dessous pour diffuser un message
+            //- Form
+            form.form-horizontal(name="message", method="post", action="/admin/message")
+                div.form-group
+                    label(for="textareaMessage") Saisissez votre message :
+                    textarea#textareaMessage.form-control(type="text", name="content")
+                button.btn.btn-primary(type="submit") Envoyer
