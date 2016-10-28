@@ -4,7 +4,9 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel="stylesheet", href="/css/bootstrap.min.css")
+    script(type='text/javascript' src='/jquery.min.js')
+    block include
   body
-    include nav/navigation
     div.container-fluid
+      include nav/navigation
       block content

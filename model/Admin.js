@@ -9,7 +9,7 @@ var adminSchema = mongoose.Schema({
     lastName : String,
     email : String,
     password : String
-});
+}, { collection: 'admins' });
 
 // Create the model from schema
 var Admin = mongoose.model('Admin', adminSchema);

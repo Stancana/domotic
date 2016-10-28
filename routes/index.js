@@ -23,8 +23,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    //Try to send the mail
-    var mail_sent = mail_sender.send_mail("vince.chenal@gmail.com", req.body.content)
+    //Try to send the maili
+    var mail_sent;
+    if(req.body.content != "" && req.body.content != null){
+        mail_sender.send_mail("vince.chenal@gmail.com", req.body.content)
+    }else{
+        res.render('index', { title: 'FabLab staff notifier' , form_error:"Vous devez spécifier un message avant d'envoyer le mail"});
+    }
 
     //Check whether th emails has been sent or not and render the page in consequence
     if(mail_sent){

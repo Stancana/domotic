@@ -1,0 +1,42 @@
+extends layout
+
+block include
+    script(type='text/javascript' src='/javascript/diffusion_list.js')
+
+block content
+
+    div.container-fuild
+        div.page-header
+            h1 Liste de diffusion
+            small Vous pouvez spécifier la liste de personnes qui peuvent être contactées lors de l'envoi d'une notification.
+        table.table
+            tr
+                th Nom
+                th Prénom
+                th Email
+                th Supprimer
+            each people in peoples
+                tr
+                    td #{people.lastName}
+                    td #{people.firstName}
+                    td #{people.email}
+                    td.hidden.people_id #{people._id}
+                    td
+                        input.btn.btn-primary.btn-danger.deleteButton(type="submit" value="Supprimer")
+
+        if add_success != ""
+            div.alert.alert-success #{add_success}
+        if add_error != ""
+            div.alert.alert-danger #{add_error}
+
+        form(name="add-estimation", method="post", action="/admin/contacts_list/add")
+            panel Prénom :
+            input(type="text" name="firstName")
+            br
+            panel Nom :
+            input(type="text" name="lastName")
+            br
+            panel Email :
+            input(type="text" name="email")
+            br
+            input(type="submit" value="Ajouter")
