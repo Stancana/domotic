@@ -31,7 +31,6 @@ router.get("/home", function(req, res, next) {
         res.redirect("login");
 });
 
-
 router.get("/message", function (req, res, next) {var title = 'Message de notification';
 
     // Check first if you can access to this page
@@ -64,22 +63,23 @@ router.post("/message", function (req, res, next) {
 
     // Create the message to save
     var message = new Message({
-        message : _message,
-        date : dd
+        message: _message,
+        date: dd
     });
 
     //Save message
-    message.save(function(err){
-        if(err){
+    message.save(function (err) {
+        if (err) {
             console.log(err);
             req.flash('error', 'Une erreur est survenue. Le message n\' a pu être sauvegardé !');
             res.redirect('message');
         }
-        else{
+        else {
             req.flash('success', 'Le message a été sauvegardé avec succès !');
             res.redirect('message');
         }
     });
+});
 
 router.get("/contacts_list", function(req, res, next) {
     if (logged.isLogged(req)) {
