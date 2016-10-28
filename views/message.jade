@@ -2,25 +2,23 @@ extends layout
 
 block content
 
-    //- Error or Success section
-    if success
-        div.alert.alert-success #{success}
-    if error
+    if error && error != ''
         div.alert.alert-danger #{error}
+    if success && success != ''
+        div.alert.alert-success #{success}
 
-    //- Admin message
     if adminMessage
         div.panel.panel-default
-            div.panel-heading Message FABLAB :  #{adminMessage.date}
+            div.panel-heading Message du #{adminMessage.date}
             div.panel-body #{adminMessage.message}
 
     //- Panel for sending mail
     div.panel.panel-info
         div.panel-heading #{title}
         div.panel-body
-            p Bienvenue ! Vous pouvez utiliser le formulaire ci-dessous pour notifier un responsable FABLAB !
+            p Utiliser le formulaire ci-dessous pour diffuser un message
             //- Form
-            form.form-horizontal(name="send_mail", method="post", action="/")
+            form.form-horizontal(name="message", method="post", action="/admin/message")
                 div.form-group
                     label(for="textareaMessage") Saisissez votre message :
                     textarea#textareaMessage.form-control(type="text", name="content")
