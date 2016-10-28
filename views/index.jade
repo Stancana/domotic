@@ -3,10 +3,16 @@ extends layout
 block content
 
     //- Error or Success section
-    if mail_ok
-        div.alert.alert-success #{mail_ok}
-    if mail_not_ok
-        div.alert.alert-danger #{mail_not_ok}
+    if success
+        div.alert.alert-success #{success}
+    if error
+        div.alert.alert-danger #{error}
+
+    //- Admin message
+    if adminMessage
+        div.panel.panel-default
+            div.panel-heading Message FABLAB :  #{adminMessage.date}
+            div.panel-body #{adminMessage.message}
 
     //- Panel for sending mail
     div.panel.panel-info
