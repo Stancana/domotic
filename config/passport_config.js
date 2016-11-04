@@ -13,6 +13,8 @@ function setConfiguration(passport){
 
     // Serialization
     passport.serializeUser(function(user, done) {
+        user = user.toObject();
+        delete user["password"];
         done(null, user);
     });
 
