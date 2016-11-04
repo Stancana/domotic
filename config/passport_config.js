@@ -3,6 +3,7 @@
  */
 var passportStrategy = require('passport-local').Strategy;
 var Admin = require('../model/Admin').Admin;
+var passwordHash = require("password-hash");
 
 /*
     Configure passport
@@ -26,20 +27,30 @@ function setConfiguration(passport){
         passwordField : 'password',
         passReqToCallback : true
     },function (req,username, password, done) {
-        Admin.findOne({'email' : username, 'password' : password}, 'firstName lastName', function (err, user) {
+        Admin.findOne({'email' : username}, 'password firstName lastName', function (err, user) {
                 if(err){
                     console.error(err);
                     return done(null, false);
                 }
+
                 // User not found
                 if(user == null){
                     console.log("User %s doesn't exist.", username);
-                    return done(null, false, req.flash('loginMessage', 'Oups ! Your mail or login is not avalaible.'));
+                    return done(null, false, req.flash('loginMessage', 'Oups ! L\'utilisateur n\'existe pas.'));
                 }
+
                 // User found
                 else {
                     console.log("User %s found.", username);
-                    return done(null, user);
+                    if(passwordHash.verify(password, user.password)) {
+                        // Success
+                        return done(null, user);
+                    }
+                    else{
+                        // Wrong password
+                        console.log("Wrong password for user %s.", username);
+                        return done(null, false, req.flash('loginMessage', 'Oups ! Mot de passe incorrect.'));
+                    }
                 }
         });
     }));
