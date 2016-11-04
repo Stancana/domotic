@@ -14,13 +14,8 @@ var admin = require('./routes/admin');
 
 var app = express();
 
-//Import configurations
-var global_config = require("./config/global_config");
-global_config.setGlobalConfig(app);
 var mongo_config = require("./config/mongo_config");
 mongo_config.setDBConfig(app);
-var mail_config = require("./config/mail_config");
-mail_config.setMailConfig(app);
 
 
 //Configure passport

@@ -3,9 +3,9 @@ extends layout
 block content
 
     //- Error or Success section
-    if success
+    if success && success != ""
         div.alert.alert-success #{success}
-    if error
+    if error && error != ""
         div.alert.alert-danger #{error}
 
     //- Admin message
@@ -24,4 +24,9 @@ block content
                 div.form-group
                     label(for="textareaMessage") Saisissez votre message :
                     textarea#textareaMessage.form-control(type="text", name="content")
+                    each people in peoples
+                        input(type="checkbox" name="emails[]" value="#{people.email}")
+                        | #{people.firstName} #{people.lastName} #{people.email}
+                        br
+
                 button.btn.btn-primary(type="submit") Envoyer

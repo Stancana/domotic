@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mail_sender = require('../engine/mail_sender');
 var Message = require('../model/Message').Message;
+var Contact = require("../model/Contact").Contact;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -10,33 +11,46 @@ router.get('/', function(req, res, next) {
 
     // Get current message
     Message.find({}, function (err, message) {
+        var render_options = {
+            title: title,
+            error: req.flash('error'),
+            form_error: req.flash("form_error"),
+            success: req.flash('success')
+        }
+
         if (err){
             console.log(err);
             req.flash('error', err);
-            res.render('index', { title: title, error : req.flash('error')});
         }
-        if(message.length > 0)
-            res.render('index', {title: title, adminMessage : message[0]});
-        else
-            res.render('index', { title: title});
+
+        if(message.length > 0){
+            render_options.adminMessage = message[0];
+        }
+
+        Contact.find({},function(err,docs){
+            render_options.peoples = docs;
+            res.render('index', render_options);
+        });
     });
 });
 
 router.post('/', function(req, res, next) {
-    //Try to send the maili
+    //Try to send the mail
     var mail_sent;
     if(req.body.content != "" && req.body.content != null){
-        mail_sender.send_mail("vince.chenal@gmail.com", req.body.content)
+        mail_sent = mail_sender.send_mail(req, req.body["emails[]"], req.body.content);
+
+        //Check whether th emails has been sent or not and render the page in consequence
+        if(mail_sent){
+            req.flash('success', 'Le mail a été envoyé avec succès !');
+        }else{
+            req.flash('error', 'Il y a eu un problème lors de l\'envoi du mail. Veuillez contactez un administrateur.');
+        }
     }else{
-        res.render('index', { title: 'FabLab staff notifier' , form_error:"Vous devez spécifier un message avant d'envoyer le mail"});
+        req.flash('form_error', 'Vous devez spécifier un message avant d\'envoyer le mail');
     }
 
-    //Check whether th emails has been sent or not and render the page in consequence
-    if(mail_sent){
-        res.render('index', { title: 'FabLab staff notifier' , success: "The mail has been successfully sent"});
-    }else{
-        res.render('index', { title: 'FabLab staff notifier' , error: "There was a problem while sending the mail. Please contact an administrator)"});
-    }
+    res.redirect('/');
 });
 
 module.exports = router;

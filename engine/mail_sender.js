@@ -1,15 +1,16 @@
-var nodemailer = require("nodemailer")
-var mail_config = require("../config/mail_config")
+var nodemailer = require("nodemailer");
+//var mail_config = require("../config/mail_config")
+var mail_config = require('../config/mail_config');
 
-function send_mail(to, content){
+function send_mail(req, to, content){
     // create reusable transporter object using the default SMTP transport
-    var transporter = nodemailer.createTransport(mail_config.smtp_server);
+    var transporter = nodemailer.createTransport(mail_config.SMTP_SERVER);
 
     // setup e-mail data with unicode symbols
     var mailOptions = {
-        from: '"FabLab Grenoble ?" <'+mail_config.mail_account_name+'>', // sender address
+        from: '"FabLab Grenoble ?" <'+mail_config.SENDER_EMAIL+'>', // sender address
         to: to, // list of receivers
-        subject: mail_config.email_subject, // Subject line
+        subject: mail_config.EMAIL_SUBJECT, // Subject line
         text: content, // plaintext body
         html: "<p>"+content+"</p>" // html body
     };
