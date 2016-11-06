@@ -8,6 +8,18 @@ var logged = require("../engine/checkLogged")
 var Message = require('../model/Message').Message;
 var Contact = require("../model/Contact").Contact;
 
+router.use(function(req, res, next){
+    if(req.originalUrl == "/admin/login") {
+        next();
+    }
+    else{
+        if (!logged.isLogged(req))
+            res.redirect("login");
+        else
+            next();
+    }
+});
+
 router.get("/",function (req, res, next) {
     res.redirect("/admin/home");
 })
@@ -25,18 +37,10 @@ router.post("/login", passport.authenticate( 'local', {
 }));
 
 router.get("/home", function(req, res, next) {
-    if (logged.isLogged(req))
-        res.render('home');
-    else
-        res.redirect("login");
+    res.render('home');
 });
 
 router.get("/message", function (req, res, next) {var title = 'Message de notification';
-
-    // Check first if you can access to this page
-    if (!logged.isLogged(req))
-        res.redirect('login');
-
     // Get current message
     Message.find({}, function (err, message) {
         if (err){
@@ -52,11 +56,6 @@ router.get("/message", function (req, res, next) {var title = 'Message de notifi
 });
 
 router.post("/message", function (req, res, next) {
-
-    // Check first if you can access to this page
-    if (!logged.isLogged(req))
-        res.redirect('login');
-
     // Get information;
     var _message = req.body.content;
     var dd = new Date();
@@ -82,8 +81,6 @@ router.post("/message", function (req, res, next) {
 });
 
 router.get("/contacts_list", function(req, res, next) {
-    if (logged.isLogged(req)) {
-
         var diffusion_list;
         Contact.find({},function(err,docs){
                 res.render('contacts_list', {
@@ -92,58 +89,46 @@ router.get("/contacts_list", function(req, res, next) {
                     add_success: req.flash("add_success")
                 });
         });
-    }
-    else
-        res.redirect("login");
 });
 
 router.post("/contacts_list/delete", function(req, res, next) {
-    if (logged.isLogged(req)) {
-        var response;
+    var response;
 
-        Contact.remove({_id:""+req.body.people_id}, function(err){
-            if(err){
-                res.send({
-                    "type":"error",
-                    "message":"There was a problem while removing the contact"
-                });
-            }else{
-                res.send({
-                    "type":"success",
-                    "message":"The people has been successfully removed"
-                });
-            }
-        });
-    }
-    else
-        res.redirect("login");
+    Contact.remove({_id:""+req.body.people_id}, function(err){
+        if(err){
+            res.send({
+                "type":"error",
+                "message":"There was a problem while removing the contact"
+            });
+        }else{
+            res.send({
+                "type":"success",
+                "message":"The people has been successfully removed"
+            });
+        }
+    });
 });
 
 router.post("/contacts_list/add", function(req, res, next) {
-    if (logged.isLogged(req)) {
-        var firstName = req.body.firstName;
-        var lastName = req.body.lastName;
-        var email = req.body.email;
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
+    var email = req.body.email;
 
-        //Check params
+    //Check params
 
-        //Insert new doc
-        var new_contact = new Contact({
-            firstName:firstName,
-            lastName:lastName,
-            email:email
-        }).save(function (err) {
-            if(err){
-                req.flash("add_error","Il y a eu un problème lors de l'ajout du contact");
-            }else{
-                req.flash("add_success","Le contact a été ajouté avec succès");
-            }
-            res.redirect('/admin/contacts_list')
-        });
-
-    }
-    else
-        res.redirect("login");
+    //Insert new doc
+    var new_contact = new Contact({
+        firstName:firstName,
+        lastName:lastName,
+        email:email
+    }).save(function (err) {
+        if(err){
+            req.flash("add_error","Il y a eu un problème lors de l'ajout du contact");
+        }else{
+            req.flash("add_success","Le contact a été ajouté avec succès");
+        }
+        res.redirect('/admin/contacts_list')
+    });
 });
 
 module.exports = router;
