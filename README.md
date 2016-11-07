@@ -9,31 +9,54 @@ This project is used to manage FabLab access.
 
 The application consists into 2 docker images
 
-### Fablab image
+### Building Fablab image
 
-To build the image :
-
-```bash
-sudo docker build -t ensimag/fablab_project:1 .
-```
-
-To run the image :
+#### ARM based image
 
 ```bash
-docker run -d -p 80:80 --name fablab_project ensimag/fablab_project:1
+cd DomoticProject
+docker build -f Dockerfile -t ensimag/rpi_fablab_project:1 .
 ```
 
-### MongoDB Image
+#### Intel x86_64 based image
 
-MongoDB is a NoSQL database ....
-We use it to store our datas
+```bash
+cd DomoticProject
+docker build -f Dockerfile-x86_64 -t ensimag/fablab_project:1 .
+```
 
+### Building MongoDB Image
 [https://hub.docker.com/_/mongo/](https://hub.docker.com/_/mongo/)
 
-To run MongoDB:
+#### ARM based image
 
 ```bash
-docker run --name some-mongo -d mongo
+cd mongodb_image/
+docker build -f Dockerfile -t ensimag/rpi_mongo:1 .
+```
+
+#### Intel x86_64 based image
+```bash
+cd mongodb_image/
+docker build -f Dockerfile-x86_64 -t ensimag/mongo:1 .
+```
+
+### Running the application
+
+Our application is composed of 2 micro-services : the node application and the mongo database.
+
+We use a docker-compose file to deploy the application.
+
+#### Deploying on Intel x86_64
+
+```bash
+
+```
+
+#### Deploying on ARM
+
+```bash
+
 ```
 
 ### Mongo-Express
@@ -47,4 +70,3 @@ To run Mongo-Express:
 # some_mongo_container has to be the name of the mongo container
 docker run --link some_mongo_container:mongo -p 8081:8081 mongo-express
 ```
-
