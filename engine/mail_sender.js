@@ -1,10 +1,24 @@
 var nodemailer = require("nodemailer");
-//var mail_config = require("../config/mail_config")
 var mail_config = require('../config/mail_config');
 
 function send_mail(req, to, content){
-    // create reusable transporter object using the default SMTP transport
-    var transporter = nodemailer.createTransport(mail_config.SMTP_SERVER);
+    var smtp_config = {
+        service: 'Gmail',
+        auth: {
+            user: mail_config.SENDER_EMAIL,
+            pass: mail_config.MAIL_PASSWORD
+        },
+        logger: true, // log to console
+        debug: true, // include SMTP traffic in the logs
+    };
+
+    if(process.env.HTTP_PROXY != ""){
+        console.log("We use the proxy "+process.env.HTTP_PROXY+" to connect to SMTP");
+        smtp_config.proxy = process.env.HTTP_PROXY;
+    }
+
+    var transporter = nodemailer.createTransport(smtp_config);
+
 
     // setup e-mail data with unicode symbols
     var mailOptions = {
