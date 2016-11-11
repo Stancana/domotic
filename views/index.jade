@@ -22,11 +22,12 @@ block content
             //- Form
             form.form-horizontal(name="send_mail", method="post", action="/")
                 div.form-group
-                    label(for="textareaMessage") Saisissez votre message :
-                    textarea#textareaMessage.form-control(type="text", name="content")
-                    each people in peoples
-                        input(type="checkbox" name="emails[]" value="#{people.email}")
-                        | #{people.firstName} #{people.lastName} #{people.email}
-                        br
+                    div.col-md-12
+                        label(for="textareaMessage") Saisissez votre message :
+                        textarea#textareaMessage.form-control(type="text", name="content")
+                        each people in peoples
+                            input(type="checkbox" name="emails[]" value="#{people.email}")
+                            | #{people.firstName} #{people.lastName} #{people.email}
+                            br
 
                 button.btn.btn-primary(type="submit") Envoyer

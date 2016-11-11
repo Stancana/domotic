@@ -34,14 +34,18 @@ block content
         if add_error != ""
             div.alert.alert-danger #{add_error}
 
-        form(name="add-estimation", method="post", action="/admin/contacts_list/add")
-            panel Prénom :
-            input(type="text" name="firstName")
-            br
-            panel Nom :
-            input(type="text" name="lastName")
-            br
-            panel Email :
-            input(type="text" name="email")
-            br
-            input(type="submit" value="Ajouter")
+        div.row
+            div.col-xs-12.col-sm-6.col-sm-offset-0
+                form.form-horizontal(action="/admin/contacts_list/add" method="post" name="add-estimation")
+                    div.form-group
+                        div.col-md-6
+                            input.form-control(type="text" name="firstName" placeholder="Prénom")
+                    div.form-group
+                        div.col-md-6
+                            input.form-control(type="text" name="lastName" placeholder="Nom")
+                    div.form-group
+                        div.col-md-6
+                            input.form-control(type="email" name="email" placeholder="Email")
+                    div.form-group
+                        div.col-sm-offset-0.col-md-8
+                            button.btn.btn-primary(type="submit") Ajouter
