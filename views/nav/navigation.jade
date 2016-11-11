@@ -5,11 +5,16 @@ block navigation
         div.container-fluid
             div.navbar-header
                 a.navbar-brand FABLAB Grenoble
-            if isAuthenticated
-                div.navbar-form.navbar-right
-                    a(href='/admin/logout')
-                        button.btn.btn-danger(type="button") Déconnexion
-            else
-                div.navbar-form.navbar-right
-                    a(href='/admin/login')
-                        button.btn.btn-primary(type="button") Connexion
+            div.collapse.navbar-collapse
+                ul.nav.navbar-nav.navbar-right
+                    li.dropdown
+                        a.dropdown-toggle(href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Menu
+                            span.caret
+                        ul.dropdown-menu
+                            li
+                                a(href="/admin/home") Admin Zone
+                            if isAuthenticated
+                                li.divider(role="separator")
+                                li
+                                    a(href="/admin/logout") Se déconnecter
+
