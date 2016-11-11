@@ -15,10 +15,8 @@ router.use(function(req, res, next){
     else{
         if (!logged.isLogged(req))
             res.redirect("/admin/login");
-        else {
-            res.locals.isAuthenticated = true;
+        else
             next();
-        }
     }
 });
 
@@ -45,6 +43,7 @@ router.post('/login', function(req, res, next) {
             if (err) {
                 return next(err);
             }
+            req.app.locals.isAuthenticated = true;
             return res.redirect('/admin/home');
         });
     })(req, res, next);
@@ -52,12 +51,12 @@ router.post('/login', function(req, res, next) {
 
 router.get('/logout', function(req, res){
     req.session = null;
+    req.app.locals.isAuthenticated = false;
     res.redirect('/');
 });
 
 
 router.get("/home", function(req, res, next) {
-    res.locals.isAuthenticated = true;
     res.render('admin_home');
 });
 
