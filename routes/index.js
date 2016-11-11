@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var logged = require("../engine/checkLogged")
 var mail_sender = require('../engine/mail_sender');
 var Message = require('../model/Message').Message;
 var Contact = require("../model/Contact").Contact;
@@ -37,7 +38,18 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
     //Try to send the mail
     var mail_sent;
-    if(req.body.content != "" && req.body.content != null){
+    var form_error = false;
+    if(req.body.content == "" || req.body.content == null) {
+        req.flash('form_error', 'Vous devez spécifier un message avant d\'envoyer le mail');
+        form_error = true;
+    }
+
+    if(req.body["emails[]"] == null){
+        req.flash('form_error', 'Vous devez spécifier au moins un destinataire.');
+        form_error = true;
+    }
+
+    if(!form_error){
         mail_sent = mail_sender.send_mail(req, req.body["emails[]"], req.body.content);
 
         //Check whether th emails has been sent or not and render the page in consequence
@@ -46,8 +58,6 @@ router.post('/', function(req, res, next) {
         }else{
             req.flash('error', 'Il y a eu un problème lors de l\'envoi du mail. Veuillez contactez un administrateur.');
         }
-    }else{
-        req.flash('form_error', 'Vous devez spécifier un message avant d\'envoyer le mail');
     }
 
     res.redirect('/');

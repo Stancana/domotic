@@ -7,6 +7,9 @@ block content
         div.alert.alert-success #{success}
     if error && error != ""
         div.alert.alert-danger #{error}
+    if form_error
+        each ferror in form_error
+            div.alert.alert-danger #{ferror}
 
     //- Admin message
     if adminMessage
