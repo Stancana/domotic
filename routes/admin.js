@@ -15,8 +15,10 @@ router.use(function(req, res, next){
     else{
         if (!logged.isLogged(req))
             res.redirect("/admin/login");
-        else
+        else {
+            res.locals.isAuthenticated = true;
             next();
+        }
     }
 });
 
@@ -31,12 +33,31 @@ router.get("/login", function(req, res, next) {
         res.render('login', {message : req.flash('loginMessage')});
 });
 
-router.post("/login", passport.authenticate( 'local', {
-    successRedirect : "/admin/home",
-    failureRedirect : "/admin/login"
-}));
+router.post('/login', function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.redirect('/admin/login');
+        }
+        req.logIn(user, function(err) {
+            if (err) {
+                return next(err);
+            }
+            return res.redirect('/admin/home');
+        });
+    })(req, res, next);
+});
+
+router.get('/logout', function(req, res){
+    req.session = null;
+    res.redirect('/');
+});
+
 
 router.get("/home", function(req, res, next) {
+    res.locals.isAuthenticated = true;
     res.render('admin_home');
 });
 

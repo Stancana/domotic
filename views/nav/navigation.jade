@@ -5,3 +5,11 @@ block navigation
         div.container-fluid
             div.navbar-header
                 a.navbar-brand FABLAB Grenoble
+            if isAuthenticated
+                div.navbar-form.navbar-right
+                    a(href='/admin/logout')
+                        button.btn.btn-danger(type="button") Déconnexion
+            else
+                div.navbar-form.navbar-right
+                    a(href='/admin/login')
+                        button.btn.btn-primary(type="button") Connexion
