@@ -14,7 +14,7 @@ router.use(function(req, res, next){
     }
     else{
         if (!logged.isLogged(req))
-            res.redirect("login");
+            res.redirect("/admin/login");
         else
             next();
     }
@@ -37,7 +37,7 @@ router.post("/login", passport.authenticate( 'local', {
 }));
 
 router.get("/home", function(req, res, next) {
-    res.render('home');
+    res.render('admin_home');
 });
 
 router.get("/message", function (req, res, next) {var title = 'Message de notification';
@@ -81,7 +81,6 @@ router.post("/message", function (req, res, next) {
 });
 
 router.get("/contacts_list", function(req, res, next) {
-        var diffusion_list;
         Contact.find({},function(err,docs){
                 res.render('contacts_list', {
                     peoples: docs,

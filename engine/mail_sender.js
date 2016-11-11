@@ -22,7 +22,7 @@ function send_mail(req, to, content){
 
     // setup e-mail data with unicode symbols
     var mailOptions = {
-        from: '"FabLab Grenoble ?" <'+mail_config.SENDER_EMAIL+'>', // sender address
+        from: '"FabLab Grenoble" <'+mail_config.SENDER_EMAIL+'>', // sender address
         to: to, // list of receivers
         subject: mail_config.EMAIL_SUBJECT, // Subject line
         text: content, // plaintext body
