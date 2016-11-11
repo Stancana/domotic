@@ -2,6 +2,11 @@ extends layout
 
 block content
 
+    ol.breadcrumb
+        li
+            a(href="/admin/home") Admin
+        li.active Message
+
     if error && error != ''
         div.alert.alert-danger #{error}
     if success && success != ''

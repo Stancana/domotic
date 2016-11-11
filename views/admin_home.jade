@@ -2,6 +2,12 @@ extends layout
 
 block content
 
+    ol.breadcrumb
+        li.active Admin
+
+
     ul
         li
-            a
+            a(href="/admin/message") Editer le message d'accueil
+        li
+            a(href="/admin/contacts_list") Editer la liste d'emails
