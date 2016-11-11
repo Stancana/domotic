@@ -57,22 +57,32 @@ router.get('/logout', function(req, res){
 
 
 router.get("/home", function(req, res, next) {
-    res.locals.isAuthenticated = true;
-    res.render('admin_home');
+    var render_options = {
+        isAuthenticated: res.locals.isAuthenticated
+    };
+
+    res.render('admin_home', render_options);
 });
 
-router.get("/message", function (req, res, next) {var title = 'Message de notification';
+router.get("/message", function (req, res, next) {
+    var render_options = {
+        title : "Message de notification",
+        isAuthenticated : res.locals.isAuthenticated
+    };
+
     // Get current message
     Message.find({}, function (err, message) {
         if (err){
             console.log(err);
-            req.flash('error', err);
-            res.render('message', { title: title, error : req.flash('error')});
+            render_options.error = err;
         }
-        if(message.length > 0)
-            res.render('message', {title: title, adminMessage : message[0], success : req.flash('success')});
-        else
-            res.render('message', { title: title});
+
+        if(message.length > 0){
+            render_options.adminMessage = message[0];
+            render_options.success = req.flash('success');
+        }
+
+        res.render('message', render_options);
     });
 });
 
@@ -102,13 +112,19 @@ router.post("/message", function (req, res, next) {
 });
 
 router.get("/contacts_list", function(req, res, next) {
-        Contact.find({},function(err,docs){
-                res.render('contacts_list', {
-                    peoples: docs,
-                    add_error: req.flash("add_error"),
-                    add_success: req.flash("add_success")
-                });
-        });
+
+    var render_options = {
+        isAuthenticated : res.locals.isAuthenticated
+    };
+
+    Contact.find({},function(err,docs){
+        render_options.peoples = docs;
+        render_options.add_error = req.flash("add_error");
+        render_options.add_success = req.flash("add_success");
+
+
+        res.render('contacts_list', render_options);
+    });
 });
 
 router.post("/contacts_list/delete", function(req, res, next) {

@@ -5,6 +5,13 @@ var mail_sender = require('../engine/mail_sender');
 var Message = require('../model/Message').Message;
 var Contact = require("../model/Contact").Contact;
 
+router.use(function(req, res, next){
+    if(logged.isLogged(req)){
+        res.locals.isAuthenticated = true;
+    }
+    next();
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
@@ -16,7 +23,8 @@ router.get('/', function(req, res, next) {
             title: title,
             error: req.flash('error'),
             form_error: req.flash("form_error"),
-            success: req.flash('success')
+            success: req.flash('success'),
+            isAuthenticated: res.locals.isAuthenticated
         }
 
         if (err){
@@ -26,6 +34,10 @@ router.get('/', function(req, res, next) {
 
         if(message.length > 0){
             render_options.adminMessage = message[0];
+        }
+
+        if(logged.isLogged(req)){
+            render_options.isAuthenticated = true;
         }
 
         Contact.find({},function(err,docs){
