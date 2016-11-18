@@ -1,7 +1,7 @@
 var nodemailer = require("nodemailer");
 var mail_config = require('../config/mail_config');
 
-function send_mail(req, to, content){
+function send_mail(req, to, content, mail_callback){
     var smtp_config = {
         service: 'Gmail',
         auth: {
@@ -31,15 +31,17 @@ function send_mail(req, to, content){
 
     // send mail with defined transport object
     var mail_sent = true;
+    var finished = false;
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
-            mail_sent = false;
             console.log("There was a problem : "+error);
+            mail_callback(false);
         }else {
             console.log('Message sent: ' + info.response);
+            mail_callback(true);
         }
-        return mail_sent;
     });
+
 }
 
 module.exports = {

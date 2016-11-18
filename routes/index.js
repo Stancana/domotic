@@ -61,18 +61,20 @@ router.post('/', function(req, res, next) {
         form_error = true;
     }
 
-    if(!form_error){
-        mail_sent = mail_sender.send_mail(req, req.body["emails[]"], req.body.content);
-
+    var mail_callback = function(mail_sent){
         //Check whether th emails has been sent or not and render the page in consequence
         if(mail_sent){
             req.flash('success', 'Le mail a été envoyé avec succès !');
         }else{
             req.flash('error', 'Il y a eu un problème lors de l\'envoi du mail. Veuillez contactez un administrateur.');
         }
+
+        res.redirect('/');
     }
 
-    res.redirect('/');
+    if(!form_error) {
+        mail_sent = mail_sender.send_mail(req, req.body["emails[]"], req.body.content, mail_callback);
+    }
 });
 
 module.exports = router;
