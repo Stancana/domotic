@@ -13,10 +13,10 @@ router.use(function(req, res, next){
         next();
     }
     else{
-        if (!logged.isLogged(req))
+        if (!logged.isLogged(req)){
             res.redirect("/admin/login");
-        else {
-            res.locals.isAuthenticated = true;
+        }
+        else{
             next();
         }
     }
@@ -45,6 +45,7 @@ router.post('/login', function(req, res, next) {
             if (err) {
                 return next(err);
             }
+            req.app.locals.isAuthenticated = true;
             return res.redirect('/admin/home');
         });
     })(req, res, next);
@@ -52,16 +53,13 @@ router.post('/login', function(req, res, next) {
 
 router.get('/logout', function(req, res){
     req.session = null;
+    req.app.locals.isAuthenticated = false;
     res.redirect('/');
 });
 
 
 router.get("/home", function(req, res, next) {
-    var render_options = {
-        isAuthenticated: res.locals.isAuthenticated
-    };
-
-    res.render('admin_home', render_options);
+    res.render('admin_home');
 });
 
 router.get("/message", function (req, res, next) {
@@ -113,9 +111,7 @@ router.post("/message", function (req, res, next) {
 
 router.get("/contacts_list", function(req, res, next) {
 
-    var render_options = {
-        isAuthenticated : res.locals.isAuthenticated
-    };
+    var render_options = {};
 
     Contact.find({},function(err,docs){
         render_options.peoples = docs;

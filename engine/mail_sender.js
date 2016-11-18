@@ -38,8 +38,8 @@ function send_mail(req, to, content){
         }else {
             console.log('Message sent: ' + info.response);
         }
+        return mail_sent;
     });
-     return mail_sent;
 }
 
 module.exports = {
