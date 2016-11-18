@@ -4,7 +4,7 @@ services:
     container_name: fablab
     image: fablab/rpi_webapp:1
     environment:
-      - HTTP_PROXY=http://www-cache.ujf-grenoble.fr:3128
+      - HTTP_PROXY=
       - MODE=PROD
     ports:
       - "80:3000"
