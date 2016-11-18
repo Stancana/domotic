@@ -1,0 +1,55 @@
+extends layout
+
+block content
+
+    div.col-md-12
+        h1 Actu FabLab
+    div.col-md-8
+        //- Admin message
+        if adminMessage
+            div.bs-message
+                p.bg-success Un nouveau message
+            div.panel.panel-default
+                div.panel-heading Message FABLAB :  #{adminMessage.date}
+                div.panel-body #{adminMessage.message}
+        else
+            div.bs-message
+                p.bg-danger Pas de nouveau message
+
+        div.col-md-6.panel-schedule
+            h3 Horaire d'ouverture
+            hr.style-one
+            table.table
+                thead
+                    tr
+                        td Jour
+                        td Ouverture
+                tbody
+                    tr
+                        td Lundi
+                        td 9h00 à 12h00 - 14h00 à 17h00
+                    tr
+                        td Mardi
+                        td 9h00 à 12h00 - 14h00 à 17h00
+                    tr
+                        td Mercredi
+                        td 9h00 à 12h00 - 14h00 à 17h00
+                    tr
+                        td Jeudi
+                        td 9h00 à 12h00 - 14h00 à 17h00
+                    tr
+                        td Vendredi
+                        td 9h00 à 12h00 - 14h00 à 17h00
+                    tr
+                        td Samedi
+                        td Fermé
+                    tr
+                        td Dimanche
+                        td Fermé
+    div.col-md-4
+        div.horizontal-line
+        h3 Vous souhaitez contacter un responsable ?
+        h4 Scannez ce Qr-code
+        div.col-md-1
+        div.col-md-3
+            img.qr-image(src="/qr-code")

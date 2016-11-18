@@ -4,8 +4,12 @@ block navigation
     nav.navbar.navbar-default
         div.container-fluid
             div.navbar-header
-                a.navbar-brand(href="/") FABLAB Grenoble
+                a.navbar-brand(href='/') FABLAB Grenoble
             div.collapse.navbar-collapse
+                ul.nav.navbar-nav.navbar-left
+                    li
+                        a(href="/new") New
+                if ! new_page
                 ul.nav.navbar-nav.navbar-right
                     li.dropdown
                         a.dropdown-toggle(href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Menu
@@ -17,4 +21,3 @@ block navigation
                                 li.divider(role="separator")
                                 li
                                     a(href="/admin/logout") Se déconnecter
-
