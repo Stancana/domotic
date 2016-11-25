@@ -39,7 +39,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-//========Session CONFIG=======
+//========Session CONFIG========
 app.set("trust-proxy", 1);
 app.use(session({
   secret: 'keyboard_cat',
