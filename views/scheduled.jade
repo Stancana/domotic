@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    form.form-horizontal(name="scheduled", method="post", action="/admin/scheduled")
+        div.col-md-12.panel-schedule
+            h3 Horaire d'ouverture
+            hr.style-one
+            table.table
+                thead
+                    tr
+                        td Jour
+                        td Ouverture
+                tbody
+                    each item in scheduled
+                        tr
+                            td(name="day") #{item.day}
+                            if item.open
+                                td
+                                    input.scheduled-input(type="number" name="opening_morning_1_#{item.day}" size="2" value="#{item.opening_morning.split(':')[0]}")
+                                    input.scheduled-input(type="number" name="opening_morning_2_#{item.day}" value="#{item.opening_morning.split(':')[1]}")
+                                    input.scheduled-input(type="number" name="closing_morning_1_#{item.day}" value="#{item.closing_morning.split(':')[0]}")
+                                    input.scheduled-input(type="number" name="closing_morning_2_#{item.day}" value="#{item.closing_morning.split(':')[1]}")
+                                    input.scheduled-input(type="number" name="opening_afternoon_1_#{item.day}" value="#{item.opening_afternoon.split(':')[0]}")
+                                    input.scheduled-input(type="number" name="opening_afternoon_2_#{item.day}" value="#{item.opening_afternoon.split(':')[1]}")
+                                    input.scheduled-input(type="number" name="closing_afternoon_1_#{item.day}" value="#{item.closing_afternoon.split(':')[0]}")
+                                    input.scheduled-input(type="number" name="closing_afternoon_2_#{item.day}" value="#{item.closing_afternoon.split(':')[1]}")
+                            else
+                                td Fermé
+
+        br
+        button.btn.btn-primary(type="submit") Mise à jour des horaires
