@@ -4,6 +4,7 @@ var logged = require("../engine/checkLogged")
 var mail_sender = require('../engine/mail_sender');
 var Message = require('../model/Message').Message;
 var Contact = require("../model/Contact").Contact;
+var Scheduled = require("../model/Scheduled").Scheduled;
 var qr = require('qr-image');
 
 /* GET home page. */
@@ -87,8 +88,8 @@ router.get('/new', function(req, res, next) {
             render_options.adminMessage = message[0];
         }
 
-        Contact.find({},function(err,docs){
-            render_options.peoples = docs;
+        Scheduled.find({}, function (err, scheduled) {
+            render_options.scheduled = scheduled;
             res.render('new', render_options);
         });
     });

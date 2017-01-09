@@ -7,6 +7,7 @@ var passport = require("passport");
 var logged = require("../engine/checkLogged")
 var Message = require('../model/Message').Message;
 var Contact = require("../model/Contact").Contact;
+var Scheduled = require("../model/Scheduled").Scheduled;
 
 router.use(function(req, res, next){
     if(req.originalUrl == "/admin/login") {
@@ -161,6 +162,60 @@ router.post("/contacts_list/add", function(req, res, next) {
         }
         res.redirect('/admin/contacts_list')
     });
+});
+
+
+router.get("/scheduled", function(req, res, next) {
+
+    var render_options = {};
+    Scheduled.find({}, function (err, scheduled) {
+        render_options.scheduled = scheduled;
+        res.render('scheduled', render_options);
+    });
+});
+
+router.post("/scheduled", function(req, res, next) {
+    // Get information;
+    var _scheduled = req.body.content;
+
+
+    var scheduled = [];
+
+    // Create the scheduled to update
+    scheduled[0] = new Scheduled({
+        day : "Lundi",
+        open : true,
+        opening_morning : req.body.opening_morning_1_Lundi+":"+req.body.opening_morning_2_Lundi,
+        closing_morning : req.body.closing_morning_1_Lundi+":"+req.body.closing_morning_2_Lundi,
+        opening_afternoon : req.body.opening_afternoon_1_Lundi+":"+req.body.opening_afternoon_2_Lundi,
+        closing_afternoon : req.body.closing_afternoon_1_Lundi+":"+req.body.closing_afternoon_2_Lundi
+    });
+
+    // Create the scheduled to update
+    scheduled[1] = new Scheduled({
+        day : "Mardi",
+        open : true,
+        opening_morning : req.body.opening_morning_1_Mardi+":"+req.body.opening_morning_2_Mardi,
+        closing_morning : req.body.closing_morning_1_Mardi+":"+req.body.closing_morning_2_Mardi,
+        opening_afternoon : req.body.opening_afternoon_1_Mardi+":"+req.body.opening_afternoon_2_Mardi,
+        closing_afternoon : req.body.closing_afternoon_1_Mardi+":"+req.body.closing_afternoon_2_Mardi
+    });
+
+    for(var day in scheduled)
+    {
+        day.save(function (err) {
+            if (err) {
+                console.log(err);
+                req.flash('error', 'Une erreur est survenue. L\'horaire n\'a pu être mis à jour !');
+                res.redirect('scheduled');
+            }
+            else {
+                req.flash('success', 'L\'horaire a été mis à jour avec succès !');
+                res.redirect('scheduled');
+            }
+        });
+
+    }
 });
 
 module.exports = router;

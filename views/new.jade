@@ -25,27 +25,13 @@ block content
                         td Jour
                         td Ouverture
                 tbody
-                    tr
-                        td Lundi
-                        td 9h00 à 12h00 - 14h00 à 17h00
-                    tr
-                        td Mardi
-                        td 9h00 à 12h00 - 14h00 à 17h00
-                    tr
-                        td Mercredi
-                        td 9h00 à 12h00 - 14h00 à 17h00
-                    tr
-                        td Jeudi
-                        td 9h00 à 12h00 - 14h00 à 17h00
-                    tr
-                        td Vendredi
-                        td 9h00 à 12h00 - 14h00 à 17h00
-                    tr
-                        td Samedi
-                        td Fermé
-                    tr
-                        td Dimanche
-                        td Fermé
+                    each item in scheduled
+                        tr
+                            td #{item.day}
+                            if item.open
+                                td #{item.opening_morning} à #{item.closing_morning} - #{item.opening_afternoon} à #{item.closing_afternoon}
+                            else
+                                td Fermé
     div.col-md-4
         div.horizontal-line
         h3 Vous souhaitez contacter un responsable ?
