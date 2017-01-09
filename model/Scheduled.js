@@ -35,6 +35,16 @@ scheduledSchema.pre("save", function (next) {
     });
 })
 
+scheduledSchema.methods.updateScheduled = function () {
+    Scheduled.findOneAndUpdate({day:this.day}, {opening_morning: this.opening_morning, closing_morning: this.closing_morning, opening_afternoon: this.opening_afternoon, closing_afternoon: this.closing_afternoon}, {new: true}, function(err, scheduled){
+        if(err){
+            console.log("Something wrong when updating data!");
+        }
+    });
+}
+
+
+
 // Create the model from schema
 var Scheduled = mongoose.model('scheduled', scheduledSchema);
 

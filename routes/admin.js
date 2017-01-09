@@ -175,47 +175,80 @@ router.get("/scheduled", function(req, res, next) {
 });
 
 router.post("/scheduled", function(req, res, next) {
-    // Get information;
-    var _scheduled = req.body.content;
 
-
-    var scheduled = [];
-
-    // Create the scheduled to update
-    scheduled[0] = new Scheduled({
+    // Lundi
+    new Scheduled({
         day : "Lundi",
         open : true,
         opening_morning : req.body.opening_morning_1_Lundi+":"+req.body.opening_morning_2_Lundi,
         closing_morning : req.body.closing_morning_1_Lundi+":"+req.body.closing_morning_2_Lundi,
         opening_afternoon : req.body.opening_afternoon_1_Lundi+":"+req.body.opening_afternoon_2_Lundi,
         closing_afternoon : req.body.closing_afternoon_1_Lundi+":"+req.body.closing_afternoon_2_Lundi
-    });
+    }).updateScheduled();
 
-    // Create the scheduled to update
-    scheduled[1] = new Scheduled({
+    // Mardi
+    new Scheduled({
         day : "Mardi",
         open : true,
         opening_morning : req.body.opening_morning_1_Mardi+":"+req.body.opening_morning_2_Mardi,
         closing_morning : req.body.closing_morning_1_Mardi+":"+req.body.closing_morning_2_Mardi,
         opening_afternoon : req.body.opening_afternoon_1_Mardi+":"+req.body.opening_afternoon_2_Mardi,
         closing_afternoon : req.body.closing_afternoon_1_Mardi+":"+req.body.closing_afternoon_2_Mardi
-    });
+    }).updateScheduled();
 
-    for(var day in scheduled)
-    {
-        day.save(function (err) {
-            if (err) {
-                console.log(err);
-                req.flash('error', 'Une erreur est survenue. L\'horaire n\'a pu être mis à jour !');
-                res.redirect('scheduled');
-            }
-            else {
-                req.flash('success', 'L\'horaire a été mis à jour avec succès !');
-                res.redirect('scheduled');
-            }
-        });
+    // Mercredi
+    new Scheduled({
+        day : "Mercredi",
+        open : true,
+        opening_morning : req.body.opening_morning_1_Mercredi+":"+req.body.opening_morning_2_Mercredi,
+        closing_morning : req.body.closing_morning_1_Mercredi+":"+req.body.closing_morning_2_Mercredi,
+        opening_afternoon : req.body.opening_afternoon_1_Mercredi+":"+req.body.opening_afternoon_2_Mercredi,
+        closing_afternoon : req.body.closing_afternoon_1_Mercredi+":"+req.body.closing_afternoon_2_Mercredi
+    }).updateScheduled();
 
-    }
+    // Jeudi
+    new Scheduled({
+        day : "Jeudi",
+        open : true,
+        opening_morning : req.body.opening_morning_1_Jeudi+":"+req.body.opening_morning_2_Jeudi,
+        closing_morning : req.body.closing_morning_1_Jeudi+":"+req.body.closing_morning_2_Jeudi,
+        opening_afternoon : req.body.opening_afternoon_1_Jeudi+":"+req.body.opening_afternoon_2_Jeudi,
+        closing_afternoon : req.body.closing_afternoon_1_Jeudi+":"+req.body.closing_afternoon_2_Jeudi
+    }).updateScheduled();
+
+    // Vendredi
+    new Scheduled({
+        day : "Vendredi",
+        open : true,
+        opening_morning : req.body.opening_morning_1_Vendredi+":"+req.body.opening_morning_2_Vendredi,
+        closing_morning : req.body.closing_morning_1_Vendredi+":"+req.body.closing_morning_2_Vendredi,
+        opening_afternoon : req.body.opening_afternoon_1_Vendredi+":"+req.body.opening_afternoon_2_Vendredi,
+        closing_afternoon : req.body.closing_afternoon_1_Vendredi+":"+req.body.closing_afternoon_2_Vendredi
+    }).updateScheduled();
+
+    // Samedi
+    new Scheduled({
+        day : "Samedi",
+        open : true,
+        opening_morning : req.body.opening_morning_1_Samedi+":"+req.body.opening_morning_2_Samedi,
+        closing_morning : req.body.closing_morning_1_Samedi+":"+req.body.closing_morning_2_Samedi,
+        opening_afternoon : req.body.opening_afternoon_1_Samedi+":"+req.body.opening_afternoon_2_Samedi,
+        closing_afternoon : req.body.closing_afternoon_1_Samedi+":"+req.body.closing_afternoon_2_Samedi
+    }).updateScheduled();
+
+    // Dimanche
+    new Scheduled({
+        day : "Dimanche",
+        open : true,
+        opening_morning : req.body.opening_morning_1_Dimanche+":"+req.body.opening_morning_2_Dimanche,
+        closing_morning : req.body.closing_morning_1_Dimanche+":"+req.body.closing_morning_2_Dimanche,
+        opening_afternoon : req.body.opening_afternoon_1_Dimanche+":"+req.body.opening_afternoon_2_Dimanche,
+        closing_afternoon : req.body.closing_afternoon_1_Dimanche+":"+req.body.closing_afternoon_2_Dimanche
+    }).updateScheduled();
+
+    res.redirect('/admin/scheduled');
+
+
 });
 
 router.get("/articles", function (req, res, next) {
