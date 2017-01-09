@@ -8,6 +8,7 @@ var logged = require("../engine/checkLogged")
 var Message = require('../model/Message').Message;
 var Contact = require("../model/Contact").Contact;
 var Scheduled = require("../model/Scheduled").Scheduled;
+var Article = require("../model/Article").Article;
 
 router.use(function(req, res, next){
     if(req.originalUrl == "/admin/login") {
@@ -164,7 +165,6 @@ router.post("/contacts_list/add", function(req, res, next) {
     });
 });
 
-
 router.get("/scheduled", function(req, res, next) {
 
     var render_options = {};
@@ -216,6 +216,61 @@ router.post("/scheduled", function(req, res, next) {
         });
 
     }
+});
+
+router.get("/articles", function (req, res, next) {
+
+    var render_options = {}
+    Article.find({},function(err,docs){
+        render_options.articles = docs;
+        render_options.add_error = req.flash("add_error");
+        render_options.add_success = req.flash("add_success");
+
+        res.render('articles', render_options)
+    });
+});
+
+router.post("/articles", function (req, res, next) {
+    var title = req.body.title;
+    var content = req.body.content
+
+    if(title == "" || content == ""){
+        req.flash("add_error", "Les champs Titre et Contenu ne doivent pas être vide.");
+        res.redirect('/admin/articles');
+    }
+    else{
+        var new_article = new Article({
+            title: title,
+            date: new Date(),
+            content: content
+        }).save(function (err) {
+           if(err){
+               req.flash("add_error", "Une erreure est survenue lors de l'ajout d'un nouvel article");
+           }else{
+               req.flash("add_success", "Le nouvel article a été ajouté avec succès.")
+           }
+           res.redirect('/admin/articles');
+        });
+    }
+});
+
+router.post("/articles/delete", function(req, res, next) {
+    var response;
+
+    Article.remove({_id:""+req.body.article_id}, function(err){
+        if(err){
+            res.send({
+                "type":"error",
+                "message":"Oups ! Un problème a eu lieu. L'article n'a pas été supprimé"
+            });
+            req.flash("add_error","Oups ! Un problème a eu lieu. L'article n'a pas été supprimé");
+        }else{
+            res.send({
+                "type":"success",
+                "message":"L'article a été supprimer avec succès"
+            });
+        }
+    });
 });
 
 module.exports = router;

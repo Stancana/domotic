@@ -1,0 +1,51 @@
+extends layout
+
+block include
+    script(type='text/javascript' src='/javascript/article_list.js')
+
+block content
+
+    div.container-fuild
+        ol.breadcrumb
+            li
+                a(href="/admin/home") Admin
+            li.active Liste des articles
+
+        div.page-header
+            h1 Articles en ligne
+
+        if add_success != ""
+            div.alert.alert-success #{add_success}
+        if add_error != ""
+            div.alert.alert-danger #{add_error}
+
+        table.table
+            tr
+                th Date
+                th Titre
+                th Contenu
+                th Supprimer
+            each article in articles
+                tr
+                    td #{article.date}
+                    td #{article.title}
+                    td #{article.content}
+                    td.hidden.article_id #{article._id}
+                    td
+                        input.btn.btn-primary.btn-danger.deleteButton(type="submit" value="Supprimer")
+
+        div.page-header
+            h1 Ajouter un nouvel article
+
+        div.row
+            div.col-xs-12.col-sm-6.col-sm-offset-0
+                form.form-horizontal(action="/admin/articles" method="post")
+                    div.form-group
+                        div.col-md-12
+                            input.form-control(type="text" name="title" placeholder="Titre")
+                    div.form-group
+                        div.col-md-12
+                            textarea.form-control(name="content" placeholder="Contenu")
+                    div.form-group
+                        div.col-sm-offset-0.col-md-8
+                            button.btn.btn-primary(type="submit") Ajouter
