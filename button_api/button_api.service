@@ -1,0 +1,10 @@
+[Unit]
+Description=Button API
+
+[Service]
+WorkingDirectory=/home/pi/DomoticProject/button_api/
+ExecStart=/usr/bin/python3 button_api.py
+
+[Install]
+WantedBy=multi-user.target
+
