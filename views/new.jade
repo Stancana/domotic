@@ -16,7 +16,7 @@ block content
             div.bs-message
                 p.bg-danger Pas de nouveau message
 
-        div.col-md-6.panel-schedule
+        div.col-md-16.panel-schedule
             h3 Horaire d'ouverture
             hr.style-one
             table.table
@@ -32,6 +32,14 @@ block content
                                 td #{item.opening_morning} à #{item.closing_morning} - #{item.opening_afternoon} à #{item.closing_afternoon}
                             else
                                 td Fermé
+
+        div.col-md-16
+            h3 Articles
+            each article in articles
+                div.panel.panel-default
+                    div.panel-heading #{article.title}
+                    div.panel-body #{article.content}
+
     div.col-md-4
         div.horizontal-line
         h3 Vous souhaitez contacter un responsable ?

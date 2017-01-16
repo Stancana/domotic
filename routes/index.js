@@ -5,6 +5,7 @@ var mail_sender = require('../engine/mail_sender');
 var Message = require('../model/Message').Message;
 var Contact = require("../model/Contact").Contact;
 var Scheduled = require("../model/Scheduled").Scheduled;
+var Article = require("../model/Article").Article;
 var qr = require('qr-image');
 
 /* GET home page. */
@@ -90,7 +91,11 @@ router.get('/new', function(req, res, next) {
 
         Scheduled.find({}, function (err, scheduled) {
             render_options.scheduled = scheduled;
-            res.render('new', render_options);
+
+            Article.find({}, function (err, articles) {
+                render_options.articles = articles;
+                res.render('new', render_options);
+            });
         });
     });
 });
