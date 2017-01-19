@@ -1,6 +1,6 @@
 var exports = {
     MONGO_URL : "mongodb://localhost:27017",
-    MONGO_URL_PROD : "mongodb://mongo:27017",
+    MONGO_URL_PROD : "mongodb://mongodb:27017",
     MONGO_LOGIN : "",
     MONGO_PASSWORD : "",
     MONGO_DBNAME : "fablab"

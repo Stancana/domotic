@@ -1,7 +1,5 @@
 FROM mongo:3.2.10
 
-ENV http_proxy http://www-cache.ujf-grenoble.fr:3128
-
 VOLUME ["/data/db"]
 
 EXPOSE 27017

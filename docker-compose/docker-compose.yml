@@ -4,7 +4,6 @@ services:
     container_name: fablab
     image: fablab/rpi_webapp:1
     environment:
-      - HTTP_PROXY=
       - MODE=PROD
     ports:
       - "80:3000"
@@ -13,7 +12,7 @@ services:
     links:
       - mongodb:mongodb
   mongodb:
-    container_name: mongo
+    container_name: mongodb
     image: fablab/rpi_mongo:1
     ports:
       - "27017:27017"
