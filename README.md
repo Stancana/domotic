@@ -15,14 +15,14 @@ The application consists into 2 docker images
 
 ```bash
 cd DomoticProject
-docker build -f Dockerfile -t ensimag/rpi_fablab_project:1 .
+sudo docker build -f <Dockerfile_absolute_path> -t fablab/rpi_mongo:1 <Dockerfile_folder_path>
 ```
 
 #### Intel x86_64 based image
 
 ```bash
 cd DomoticProject
-docker build -f Dockerfile-x86_64 -t ensimag/fablab_project:1 .
+docker build -f Dockerfile-x86_64 -t fablab/rpi_webapp:1 .
 ```
 
 ### Building MongoDB Image
@@ -32,32 +32,27 @@ docker build -f Dockerfile-x86_64 -t ensimag/fablab_project:1 .
 
 ```bash
 cd mongodb_image/
-docker build -f Dockerfile -t ensimag/rpi_mongo:1 .
+docker build -f Dockerfile -t fablab/rpi_mongo:1 .
 ```
 
 #### Intel x86_64 based image
 ```bash
 cd mongodb_image/
-docker build -f Dockerfile-x86_64 -t ensimag/mongo:1 .
+docker build -f Dockerfile-x86_64 -t fablab/mongo:1 .
 ```
 
 ### Running the application
 
-Our application is composed of 2 micro-services : the node application and the mongo database.
+Our application is composed of 2 micro-services : the Node.js application and the MongoDB database.
 
 We use a docker-compose file to deploy the application.
 
-#### Deploying on Intel x86_64
-
 ```bash
-
+cd DomoticProject
+sudo docker-compose -f <docker-compose_file_absolutepath> up -d
 ```
 
-#### Deploying on ARM
-
-```bash
-
-```
+Rq: You can choose the docker-compose file you want according to the platform you want to deploy onto.
 
 ### Mongo-Express
 Mongo-Express is a GUI for Mongo. It allows to manipulate the datas that are stored inside mongo
@@ -93,20 +88,20 @@ Prérequis :
     ```bash
     # Pull the mongo image
     $ docker pull mongo:3.2.10
-    
+
     # Verify that you see the mongo image
     $ docker images
     REPOSITORY         TAG           IMAGE ID         CREATED         SIZE
     mongo              3.2.10        092cc6fb995c     2 weeks ago     342.5 MB
-    
+
     # Run your container (an instance of your mongo image)
     $ docker run --name mongo -p 27017:27017 -d mongo:3.2.10
-    
+
     # Verify that your container is running
     $ docker ps
     CONTAINER ID  IMAGE   COMMAND                  CREATED        STATUS         PORTS                      NAMES
     e1f0d74b6b9a  mongo   "/entrypoint.sh mongo"   8 seconds ago  Up 7 seconds   0.0.0.0:27017->27017/tcp   mongo
-        
+
     ```     
     - Or install from source :
     To install mongoDB directly from source visit [this link](https://docs.mongodb.com)
@@ -121,8 +116,8 @@ Prérequis :
      ```
      - If you choose to launch mongoDB from source :
      ```bash
-      $ mongo 
-      >fablab --eval 
+      $ mongo
+      >fablab --eval
          "db.admins.insert({'firstName':'Administrateur'
          , 'lastName':'Administrateur'
          , 'email':'administrateur@administrateur.com'
@@ -130,7 +125,7 @@ Prérequis :
       ```
 5. Configure your application.
     We the server start he try to connect to the database.
-    You need to initiliaze the *MONGO_URL* variable with this value *mongodb://localhost:27017* in config/mongo_config.js 
+    You need to initiliaze the *MONGO_URL* variable with this value *mongodb://localhost:27017* in config/mongo_config.js
 6. Launch the application in debug mode.
     When you launch the application you need to see this message in your console : *Connection to dabatase SUCCESS*
 7. Access to the index page.
