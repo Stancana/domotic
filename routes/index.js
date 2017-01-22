@@ -101,7 +101,7 @@ router.get('/new', function(req, res, next) {
 });
 
 router.get('/qr-code', function(req,res){
-    var code = qr.image('http://fab2.u.ga.fr:6081/new', { type: 'png', ec_level: 'H', size: 7, margin: 0 });
+    var code = qr.image('http://fab2.u-ga.fr:6081/new', { type: 'png', ec_level: 'H', size: 7, margin: 0 });
     res.setHeader('Content-type', 'image/png');
     code.pipe(res);
 });
